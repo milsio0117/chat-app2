@@ -2,6 +2,7 @@ class MessagesController < ApplicationController
   def index
     @room = Room.find(params[:room_id])
     @message = Message.new
+    @messages = @room.messages.includes(:user)  #チャットルームに紐付いている全てのメッセージ。ユーザー情報もまとめて取得
   end
 
   def create
@@ -10,6 +11,7 @@ class MessagesController < ApplicationController
     if @message.save
       redirect_to room_messages_path(@room)
     else
+      @messages = @room.message.includes(:user) #失敗したときの処理にも@messagesが定義されていないとエラーになる
       render :index, status: :unprocessable_entity
     end
   end
