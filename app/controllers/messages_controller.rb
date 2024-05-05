@@ -11,7 +11,7 @@ class MessagesController < ApplicationController
     if @message.save
       redirect_to room_messages_path(@room)
     else
-      @messages = @room.message.includes(:user) #失敗したときの処理にも@messagesが定義されていないとエラーになる
+      @messages = @room.messages.includes(:user) #失敗したときの処理にも@messagesが定義されていないとエラーになる
       render :index, status: :unprocessable_entity
     end
   end
